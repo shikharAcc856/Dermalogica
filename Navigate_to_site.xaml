@@ -1,4 +1,4 @@
-<Activity mc:Ignorable="sap sap2010" x:Class="Navigate_to_site" VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="1153.3333333333333,2501.3333333333335" sap2010:WorkflowViewState.IdRef="Navigate_to_site_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uix="http://schemas.uipath.com/workflow/activities/uix" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+<Activity mc:Ignorable="sap sap2010" x:Class="Navigate_to_site" VisualBasic.Settings="{x:Null}" sap:VirtualizedContainerService.HintSize="1153.3333333333333,2992.6666666666665" sap2010:WorkflowViewState.IdRef="Navigate_to_site_1" xmlns="http://schemas.microsoft.com/netfx/2009/xaml/activities" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:s="clr-namespace:System;assembly=System.Private.CoreLib" xmlns:sap="http://schemas.microsoft.com/netfx/2009/xaml/activities/presentation" xmlns:sap2010="http://schemas.microsoft.com/netfx/2010/xaml/activities/presentation" xmlns:scg="clr-namespace:System.Collections.Generic;assembly=System.Private.CoreLib" xmlns:sco="clr-namespace:System.Collections.ObjectModel;assembly=System.Private.CoreLib" xmlns:sd="clr-namespace:System.Data;assembly=System.Data.Common" xmlns:ui="http://schemas.uipath.com/workflow/activities" xmlns:uix="http://schemas.uipath.com/workflow/activities/uix" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
   <TextExpression.NamespacesForImplementation>
     <sco:Collection x:TypeArguments="x:String">
       <x:String>System.Activities</x:String>
@@ -41,6 +41,12 @@
       <x:String>System.Xml.Serialization</x:String>
       <x:String>UiPath.Excel</x:String>
       <x:String>UiPath.Excel.Activities</x:String>
+      <x:String>UiPath.CV</x:String>
+      <x:String>UiPath.Shared.ObjectLibrary</x:String>
+      <x:String>UiPath.CV.Activities</x:String>
+      <x:String>UiPath.CV.Activities.Interfaces</x:String>
+      <x:String>UiPath.UIAutomationNext.Contracts</x:String>
+      <x:String>UiPath.UIAutomationNext.Models.CV</x:String>
     </sco:Collection>
   </TextExpression.NamespacesForImplementation>
   <TextExpression.ReferencesForImplementation>
@@ -101,117 +107,168 @@
       <AssemblyReference>System.ComponentModel.Primitives</AssemblyReference>
       <AssemblyReference>System.Private.Xml</AssemblyReference>
       <AssemblyReference>UiPath.Excel</AssemblyReference>
+      <AssemblyReference>UiPath.CV</AssemblyReference>
+      <AssemblyReference>UiPath.UIAutomationNext.Activities.Design</AssemblyReference>
+      <AssemblyReference>UiPath.CV.Activities</AssemblyReference>
+      <AssemblyReference>System.Data.SqlClient</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
-  <Sequence sap:VirtualizedContainerService.HintSize="710,2436.6666666666665" sap2010:WorkflowViewState.IdRef="Sequence_6">
+  <Sequence sap:VirtualizedContainerService.HintSize="896,2928" sap2010:WorkflowViewState.IdRef="Sequence_6">
     <Sequence.Variables>
+      <Variable x:TypeArguments="sd:DataTable" Name="dt_Prices" />
       <Variable x:TypeArguments="scg:Dictionary(x:Int32, x:String)" Name="sites_dict">
         <Variable.Default>
-          <VisualBasicValue x:TypeArguments="scg:Dictionary(x:Int32, x:String)" ExpressionText="New Dictionary(of Int32, String) From {{0, &quot;https://www.dermalogica.com/&quot;}, {1,&quot;https://www.lookfantastic.com/&quot;}}" />
+          <VisualBasicValue x:TypeArguments="scg:Dictionary(x:Int32, x:String)" ExpressionText="New Dictionary(of Int32, String) From {{0, &quot;https://www.dermalogica.com/&quot;}}" />
         </Variable.Default>
       </Variable>
+      <Variable x:TypeArguments="s:String[]" Name="arr_Prices">
+        <Variable.Default>
+          <VisualBasicValue x:TypeArguments="s:String[]" ExpressionText="New String(20){}" />
+        </Variable.Default>
+      </Variable>
+      <Variable x:TypeArguments="x:String" Name="I1S1" />
     </Sequence.Variables>
     <sap:WorkflowViewStateService.ViewState>
       <scg:Dictionary x:TypeArguments="x:String, x:Object">
         <x:Boolean x:Key="IsExpanded">True</x:Boolean>
       </scg:Dictionary>
     </sap:WorkflowViewStateService.ViewState>
-    <ui:ForEach x:TypeArguments="scg:KeyValuePair(x:Int32, x:String)" CurrentIndex="{x:Null}" DisplayName="For Each" sap:VirtualizedContainerService.HintSize="648,2348.6666666666665" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[sites_dict]">
+    <ui:ForEach x:TypeArguments="scg:KeyValuePair(x:Int32, x:String)" CurrentIndex="{x:Null}" DisplayName="For Each" sap:VirtualizedContainerService.HintSize="834,2840" sap2010:WorkflowViewState.IdRef="ForEach`1_2" Values="[sites_dict]">
       <ui:ForEach.Body>
         <ActivityAction x:TypeArguments="scg:KeyValuePair(x:Int32, x:String)">
           <ActivityAction.Argument>
             <DelegateInArgument x:TypeArguments="scg:KeyValuePair(x:Int32, x:String)" Name="currentItem" />
           </ActivityAction.Argument>
-          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="614,2158" sap2010:WorkflowViewState.IdRef="Sequence_7">
+          <Sequence DisplayName="Body" sap:VirtualizedContainerService.HintSize="800,2649.3333333333335" sap2010:WorkflowViewState.IdRef="Sequence_7">
             <sap:WorkflowViewStateService.ViewState>
               <scg:Dictionary x:TypeArguments="x:String, x:Object">
                 <x:Boolean x:Key="IsExpanded">True</x:Boolean>
               </scg:Dictionary>
             </sap:WorkflowViewStateService.ViewState>
-            <Switch x:TypeArguments="x:Int32" DisplayName="Switch" Expression="[currentItem.Key]" sap:VirtualizedContainerService.HintSize="552,2073.3333333333335" sap2010:WorkflowViewState.IdRef="Switch`1_2">
-              <Sequence x:Key="0" sap:VirtualizedContainerService.HintSize="512,1814.6666666666667" sap2010:WorkflowViewState.IdRef="Sequence_13">
-                <Sequence.Variables>
-                  <Variable x:TypeArguments="x:String" Name="I1S1" />
-                </Sequence.Variables>
+            <Switch x:TypeArguments="x:Int32" DisplayName="Switch" Expression="[currentItem.Key]" sap:VirtualizedContainerService.HintSize="738,2564.6666666666665" sap2010:WorkflowViewState.IdRef="Switch`1_2">
+              <Sequence x:Key="0" DisplayName="Sequence-2" sap:VirtualizedContainerService.HintSize="698,2306" sap2010:WorkflowViewState.IdRef="Sequence_13">
                 <sap:WorkflowViewStateService.ViewState>
                   <scg:Dictionary x:TypeArguments="x:String, x:Object">
                     <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                   </scg:Dictionary>
                 </sap:WorkflowViewStateService.ViewState>
-                <uix:NApplicationCard AttachMode="ByInstance" DisplayName="Use Browser Chrome: Dermalogica® Skin Care | Official Site" sap:VirtualizedContainerService.HintSize="450,1591.3333333333333" sap2010:WorkflowViewState.IdRef="NApplicationCard_4" InteractionMode="DebuggerApi" ScopeGuid="61a24789-2885-4fd9-b43c-96fee873c7e2" Version="V2">
+                <uix:NApplicationCard AttachMode="ByInstance" DisplayName="Use Browser Chrome: Dermalogica® Skin Care | Official Site" sap:VirtualizedContainerService.HintSize="636,2221.3333333333335" sap2010:WorkflowViewState.IdRef="NApplicationCard_5" InteractionMode="DebuggerApi" ScopeGuid="2663d301-d327-4a44-ae2b-102f3e7f8323" Version="V2">
                   <uix:NApplicationCard.Body>
                     <ActivityAction x:TypeArguments="x:Object">
                       <ActivityAction.Argument>
                         <DelegateInArgument x:TypeArguments="x:Object" Name="WSSessionData" />
                       </ActivityAction.Argument>
-                      <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="416,1332" sap2010:WorkflowViewState.IdRef="Sequence_14">
+                      <Sequence DisplayName="Do" sap:VirtualizedContainerService.HintSize="602,1979.3333333333333" sap2010:WorkflowViewState.IdRef="Sequence_17">
                         <sap:WorkflowViewStateService.ViewState>
                           <scg:Dictionary x:TypeArguments="x:String, x:Object">
                             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
                           </scg:Dictionary>
                         </sap:WorkflowViewStateService.ViewState>
-                        <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'No'" sap:VirtualizedContainerService.HintSize="354,199.33333333333334" sap2010:WorkflowViewState.IdRef="NClick_1" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="61a24789-2885-4fd9-b43c-96fee873c7e2" Version="V3">
+                        <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'SVG'" sap:VirtualizedContainerService.HintSize="540,199.33333333333334" sap2010:WorkflowViewState.IdRef="NClick_5" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="2663d301-d327-4a44-ae2b-102f3e7f8323" Version="V3">
                           <uix:NClick.Target>
-                            <uix:TargetAnchorable BrowserURL="https://www.dermalogica.com/" CvElementArea="964, 493, 159, 72" CvTextArea="1026, 517, 36, 22" CvTextArgument="No" CvType="Button" DesignTimeRectangle="969, 497, 150, 63" DesignTimeScaleFactor="1.5" ElementType="Text" FriendlyName="'No'" FullSelectorArgument="&lt;webctrl id='spicegems_cr_btn_no' tag='A' /&gt;" FuzzySelectorArgument="&lt;webctrl id='spicegems_cr_btn_no' tag='A' type='' class='spicegems_cr_main-btn' aaname='No' check:innerText='No' /&gt;" Guid="d2ad2ae6-0297-4aa0-9972-f7923bda3285" InformativeScreenshot="8d29c7decf0cfd955fc6ef8986a95067.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Dermalogica® Skin Care | Official Site' /&gt;" SearchSteps="FuzzySelector, CV" Version="V2" Visibility="Interactive">
+                            <uix:TargetAnchorable BrowserURL="https://www.dermalogica.com/" CvElementArea="1504, 184, 40, 40" CvType="Icon" DesignTimeRectangle="1511, 189, 30, 30" DesignTimeScaleFactor="1.5" ElementType="Icon" FriendlyName="'SVG'" FullSelectorArgument="&lt;webctrl aria-role='presentation' css-selector='body&amp;gt;div&amp;gt;sticky-header&amp;gt;header&amp;gt;div&amp;gt;details-modal&amp;gt;details&amp;gt;summary&amp;gt;span&amp;gt;svg' parentid='shopify-section-header' tag='svg' /&gt;" FuzzySelectorArgument="&lt;webctrl aria-role='presentation' type='' parentid='shopify-section-header' tag='svg' class='modal__toggle-open icon icon-search' aaname='                 ' /&gt;" Guid="ba24aef1-9cec-4a3c-ace8-bb198cae3f9f" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAACIAAAAiCAYAAAA6RwvCAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAFiUAABYlAUlSJPAAAALUSURBVFhH7ZbLSypRHMfvP6iLpKcR2ipTqBYukhRfSDshHzsX4qZVQohFBJb4WAgqKKW9KAyrhRSFSAT9Lr/f/U3cU44zoyRduB+YxfnOnDOfOXNev+CH8F/kM/+eyNPTE2SzWYjH4+D1emFrawtSqRScn5/zE6OhKHJycgKbm5ug0+k+rtXVVZibm/so22w22Nvb4xrDISvy+voK0WiUXmQ0GmFnZ4ek/ub+/p56ye/303MWiwUuLi74rjb6inS7XWoUGw8EAvD8/Mx35Dk+Pobp6Wmqk8vlOFVPXxGn00kNHhwccKKOx8dHWFlZAYPBAFdXV5yq44tIJpMhiXA4zIk27u7uSASF3t/fOVVGEMGKS0tLsLi4CL1ej1Pt7O7u0sfk83lOlBFESqUSNZBMJjkZHuwVq9XKJWUEkVAoRCJnZ2ecDM/Gxga11el0OBmMIGK32+lLtPxbOba3t0mkUqlwMhhBZHJyElwuF5dGo1arkYjaqSyITExMgMfj4dJoNJtNEimXy5wMRhDBKWcymbg0Gul0mkROT085GYwggmsHVlazkioRiUSoLVzk1CCISP+1Wq1yMjxra2vgcDi4pIwggrPFbDZTA6PMHPwQvV6vaYsQRJDDw0PqlUQiwYk2cN3AzQ8Xs7e3N06V+SKCuN1uktnf3+dEHTge8KyCa9Ht7S2n6ugrgqcxnEEoo/YYcHR0BLOzs1QHRbSOs74iCG56Pp+PGp6fn4disch3RFBSOsHhc7jhTU1NkUy9XuenlJEVkSgUCrC8vEwvkrvwpcFgEF5eXqjO5eUlzMzM0ErdaDQoU0JRRAJ3Zjw6rq+v04UzKxaLya6ckgz2jpoDtmqRYUAZHDc4i66vrzntz7eKIDc3NySDp/5Wq8XpV75dBJFkcDC3221ORcYigkgyCwsLfWXGJoLgOMFfhDv8w8MDp38YqwgiyXxetccuIscPEQH4DUjJCFTBOpBjAAAAAElFTkSuQmCC" InformativeScreenshot="71d05adc0d9e6c2315b08403942be46a.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Dermalogica® Skin Care | Official Site' /&gt;" SearchSteps="FuzzySelector, CV" Version="V2" Visibility="Interactive">
                               <uix:TargetAnchorable.Anchors>
-                                <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
-                                  <uix:Target CvTextArea="798, 262, 319, 39" CvTextArgument="dermalogica" CvType="Text" DesignTimeRectangle="798, 262, 319, 39" ElementType="Text" FriendlyName="'dermalogica'" SearchSteps="CV" TargetType="ComputerVisionBased" />
+                                <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                                  <uix:Target CvTextArea="798, 184, 318, 39" CvTextArgument="dermalogica" CvType="Text" DesignTimeRectangle="801, 188, 315, 33" ElementType="Icon" FriendlyName="'IMG'" FullSelectorArgument="&lt;webctrl parentid='shopify-section-header' tag='IMG' /&gt;" FuzzySelectorArgument="&lt;webctrl parentid='shopify-section-header' tag='IMG' type='' class='company_logo' aaname='Dermalogica' /&gt;" SearchSteps="FuzzySelector, CV" />
                                 </scg:List>
                               </uix:TargetAnchorable.Anchors>
                             </uix:TargetAnchorable>
                           </uix:NClick.Target>
                         </uix:NClick>
-                        <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click '.company_logo {'" sap:VirtualizedContainerService.HintSize="354,199.33333333333334" sap2010:WorkflowViewState.IdRef="NClick_2" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="61a24789-2885-4fd9-b43c-96fee873c7e2" Version="V3">
-                          <uix:NClick.Target>
-                            <uix:TargetAnchorable BrowserURL="https://www.dermalogica.com/" CvElementArea="1504, 262, 41, 40" CvType="Icon" DesignTimeRectangle="1511, 267, 30, 30" DesignTimeScaleFactor="1.5" ElementType="Icon" FriendlyName="'SVG'" FullSelectorArgument="&lt;webctrl aria-role='presentation' css-selector='body&amp;gt;div&amp;gt;sticky-header&amp;gt;header&amp;gt;div&amp;gt;details-modal&amp;gt;details&amp;gt;summary&amp;gt;span&amp;gt;svg' parentid='shopify-section-header' tag='svg' /&gt;" FuzzySelectorArgument="&lt;webctrl aria-role='presentation' type='' parentid='shopify-section-header' tag='svg' class='modal__toggle-open icon icon-search' aaname='                 ' /&gt;" Guid="3b62ccc7-56ae-44ee-8db1-e2e2e412125a" ImageBase64="iVBORw0KGgoAAAANSUhEUgAAACIAAAAiCAYAAAA6RwvCAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAFiUAABYlAUlSJPAAAALUSURBVFhH7ZbLSypRHMfvP6iLpKcR2ipTqBYukhRfSDshHzsX4qZVQohFBJb4WAgqKKW9KAyrhRSFSAT9Lr/f/U3cU44zoyRduB+YxfnOnDOfOXNev+CH8F/kM/+eyNPTE2SzWYjH4+D1emFrawtSqRScn5/zE6OhKHJycgKbm5ug0+k+rtXVVZibm/so22w22Nvb4xrDISvy+voK0WiUXmQ0GmFnZ4ek/ub+/p56ye/303MWiwUuLi74rjb6inS7XWoUGw8EAvD8/Mx35Dk+Pobp6Wmqk8vlOFVPXxGn00kNHhwccKKOx8dHWFlZAYPBAFdXV5yq44tIJpMhiXA4zIk27u7uSASF3t/fOVVGEMGKS0tLsLi4CL1ej1Pt7O7u0sfk83lOlBFESqUSNZBMJjkZHuwVq9XKJWUEkVAoRCJnZ2ecDM/Gxga11el0OBmMIGK32+lLtPxbOba3t0mkUqlwMhhBZHJyElwuF5dGo1arkYjaqSyITExMgMfj4dJoNJtNEimXy5wMRhDBKWcymbg0Gul0mkROT085GYwggmsHVlazkioRiUSoLVzk1CCISP+1Wq1yMjxra2vgcDi4pIwggrPFbDZTA6PMHPwQvV6vaYsQRJDDw0PqlUQiwYk2cN3AzQ8Xs7e3N06V+SKCuN1uktnf3+dEHTge8KyCa9Ht7S2n6ugrgqcxnEEoo/YYcHR0BLOzs1QHRbSOs74iCG56Pp+PGp6fn4disch3RFBSOsHhc7jhTU1NkUy9XuenlJEVkSgUCrC8vEwvkrvwpcFgEF5eXqjO5eUlzMzM0ErdaDQoU0JRRAJ3Zjw6rq+v04UzKxaLya6ckgz2jpoDtmqRYUAZHDc4i66vrzntz7eKIDc3NySDp/5Wq8XpV75dBJFkcDC3221ORcYigkgyCwsLfWXGJoLgOMFfhDv8w8MDp38YqwgiyXxetccuIscPEQH4DUjJCFTBOpBjAAAAAElFTkSuQmCC" InformativeScreenshot="c4d87c63bb0ee2dd28cd38893c91d9d4.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Dermalogica® Skin Care | Official Site' /&gt;" SearchSteps="FuzzySelector, CV" Version="V2" Visibility="Interactive">
-                              <uix:TargetAnchorable.Anchors>
-                                <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
-                                  <uix:Target CvTextArea="798, 262, 318, 39" CvTextArgument="dermalogica" CvType="Text" DesignTimeRectangle="790, 254, 338, 55" ElementType="Text" FriendlyName="'.company_logo {'" FullSelectorArgument="&lt;webctrl parentid='shopify-section-header' tag='A' /&gt;" FuzzySelectorArgument="&lt;webctrl parentid='shopify-section-header' tag='A' type='' class='header__heading-link link link--text focus-inset' aaname='                 .company_logo {                   max-width: 210px;                   width: 100%;                 }                               ' check:text='.company_logo {&amp;#xD;&amp;#xA;                  max-width: 210px;&amp;#xD;&amp;#xA;                  width: 100%;&amp;#xD;&amp;#xA;                }' /&gt;" SearchSteps="FuzzySelector, CV" />
-                                </scg:List>
-                              </uix:TargetAnchorable.Anchors>
-                            </uix:TargetAnchorable>
-                          </uix:NClick.Target>
-                        </uix:NClick>
-                        <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Single" DisplayName="Type Into 'what are'" EmptyFieldMode="SingleLine" sap:VirtualizedContainerService.HintSize="354,262.6666666666667" sap2010:WorkflowViewState.IdRef="NTypeInto_1" ScopeIdentifier="61a24789-2885-4fd9-b43c-96fee873c7e2" Text="PreCleanse" Version="V3">
+                        <uix:NTypeInto ActivateBefore="True" ClickBeforeMode="Single" DisplayName="Type Into 'what are'" EmptyFieldMode="SingleLine" sap:VirtualizedContainerService.HintSize="540,262.6666666666667" sap2010:WorkflowViewState.IdRef="NTypeInto_2" ScopeIdentifier="2663d301-d327-4a44-ae2b-102f3e7f8323" Text="PreCleanse" Version="V3">
                           <uix:NTypeInto.Target>
-                            <uix:TargetAnchorable BrowserURL="https://www.dermalogica.com/" CvTextArea="604, 295, 186, 17" CvTextArgument="what are you looking for?" CvType="Text" DesignTimeRectangle="577, 287, 714, 68" DesignTimeScaleFactor="1.5" ElementType="InputBox" FriendlyName="'INPUT Search-In-Modal'" FullSelectorArgument="&lt;webctrl id='Search-In-Modal' tag='INPUT' /&gt;" FuzzySelectorArgument="&lt;webctrl id='Search-In-Modal' tag='INPUT' type='search' class='search__input field__input snize-input-style' aaname='what are you looking for?' /&gt;" Guid="44682c00-fbca-47f0-83fc-29135a2cf6bf" InformativeScreenshot="d8378c74e0e98ab5832ffdef01f278b1.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Dermalogica® Skin Care | Official Site' /&gt;" SearchSteps="FuzzySelector, CV" Version="V2" Visibility="Interactive">
+                            <uix:TargetAnchorable BrowserURL="https://www.dermalogica.com/" CvTextArea="604, 295, 186, 17" CvTextArgument="what are you looking for?" CvType="Text" DesignTimeRectangle="577, 287, 714, 68" DesignTimeScaleFactor="1.5" ElementType="InputBox" FriendlyName="'INPUT Search-In-Modal'" FullSelectorArgument="&lt;webctrl id='Search-In-Modal' tag='INPUT' /&gt;" FuzzySelectorArgument="&lt;webctrl id='Search-In-Modal' tag='INPUT' type='search' class='search__input field__input snize-input-style' aaname='what are you looking for?' /&gt;" Guid="27f822d5-0d07-49f5-b336-2f33129f77fc" InformativeScreenshot="bd28d06bf32596c448a6276d69f3f09c.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Dermalogica® Skin Care | Official Site' /&gt;" SearchSteps="FuzzySelector, CV" Version="V2" Visibility="Interactive">
                               <uix:TargetAnchorable.Anchors>
-                                <scg:List x:TypeArguments="uix:ITarget" Capacity="1">
-                                  <uix:Target CvElementArea="573, 283, 722, 75" CvType="InputBox" DesignTimeRectangle="607, 294, 183, 23" ElementType="Text" FriendlyName="'what are'" FullSelectorArgument="&lt;webctrl css-selector='body&amp;gt;div&amp;gt;sticky-header&amp;gt;header&amp;gt;div&amp;gt;details-modal&amp;gt;details&amp;gt;div&amp;gt;div&amp;gt;form&amp;gt;div&amp;gt;label' tag='LABEL' /&gt;" FuzzySelectorArgument="&lt;webctrl type='' tag='LABEL' class='field__label' aaname='what are you looking for?' check:innerText='what are you looking for?' /&gt;" SearchSteps="FuzzySelector, CV" />
+                                <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                                  <uix:Target CvElementArea="570, 282, 725, 76" CvType="InputBox" DesignTimeRectangle="607, 294, 183, 23" ElementType="Text" FriendlyName="'what are'" FullSelectorArgument="&lt;webctrl css-selector='body&amp;gt;div&amp;gt;sticky-header&amp;gt;header&amp;gt;div&amp;gt;details-modal&amp;gt;details&amp;gt;div&amp;gt;div&amp;gt;form&amp;gt;div&amp;gt;label' tag='LABEL' /&gt;" FuzzySelectorArgument="&lt;webctrl type='' tag='LABEL' class='field__label' aaname='what are you looking for?' check:innerText='what are you looking for?' /&gt;" SearchSteps="FuzzySelector, CV" />
                                 </scg:List>
                               </uix:TargetAnchorable.Anchors>
                             </uix:TargetAnchorable>
                           </uix:NTypeInto.Target>
                         </uix:NTypeInto>
-                        <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'SPAN'" sap:VirtualizedContainerService.HintSize="354,199.33333333333334" sap2010:WorkflowViewState.IdRef="NClick_3" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="61a24789-2885-4fd9-b43c-96fee873c7e2" Version="V3">
+                        <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'SVG'" sap:VirtualizedContainerService.HintSize="540,199.33333333333334" sap2010:WorkflowViewState.IdRef="NClick_6" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="2663d301-d327-4a44-ae2b-102f3e7f8323" Version="V3">
                           <uix:NClick.Target>
-                            <uix:TargetAnchorable BrowserURL="https://www.dermalogica.com/pages/search-results-page?q=PreCleanse" DesignTimeRectangle="210, 477, 349, 451" DesignTimeScaleFactor="1.5" FriendlyName="'SPAN'" FullSelectorArgument="&lt;webctrl parentid='snize-product-5710551974040' tag='SPAN' /&gt;" FuzzySelectorArgument="&lt;webctrl parentid='snize-product-5710551974040' tag='SPAN' type='' class='snize-thumbnail' aaname='' /&gt;" Guid="af4e9e5a-e128-418f-a7b0-630bf971dd07" InformativeScreenshot="4bb3e55dcf5bb86c5ebdc686f08fd28c.png" IsNativeTextCaseSensitive="True" ScopeSelectorArgument="&lt;html app='chrome.exe' title='PreCleanse - Dermalogica' /&gt;" SearchSteps="FuzzySelector" Version="V2" Visibility="Interactive" />
-                          </uix:NClick.Target>
-                        </uix:NClick>
-                        <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'unchecked'" sap:VirtualizedContainerService.HintSize="354,199.33333333333334" sap2010:WorkflowViewState.IdRef="NClick_4" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="61a24789-2885-4fd9-b43c-96fee873c7e2" Version="V3">
-                          <uix:NClick.Target>
-                            <uix:TargetAnchorable BrowserURL="https://www.dermalogica.com/products/precleanse" CvElementArea="1233, 889, 127, 79" CvTextArea="1261, 918, 67, 19" CvTextArgument="5.1 oz" CvType="Button" DesignTimeRectangle="1236, 891, 123, 75" DesignTimeScaleFactor="1.5" ElementType="Text" FriendlyName="'unchecked'" FullSelectorArgument="&lt;webctrl aaname='                               5.1 oz                           *' tag='LABEL' /&gt;" FuzzySelectorArgument="&lt;webctrl aaname='                               5.1 oz                           *' tag='LABEL' type='' class='' check:innerText='5.1 oz' /&gt;" Guid="3431fb20-7dcb-431f-9403-42f5a451099f" InformativeScreenshot="d3910840a19416e4c4a52d3e70264af9.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Precleanse Cleansing Oil Melts Make-up | Dermalogica®' /&gt;" SearchSteps="FuzzySelector, CV" Version="V2" Visibility="Interactive">
+                            <uix:TargetAnchorable BrowserURL="https://www.dermalogica.com/" DesignTimeRectangle="1245, 306, 27, 27" DesignTimeScaleFactor="1.5" ElementType="Icon" FriendlyName="'SVG'" FullSelectorArgument="&lt;webctrl aaname='                         ' aria-role='presentation' parentid='shopify-section-header' tag='svg' /&gt;" FuzzySelectorArgument="&lt;webctrl aaname='                         ' aria-role='presentation' parentid='shopify-section-header' tag='svg' type='' class='icon icon-search' /&gt;" Guid="ad5e4dbf-1697-4f59-8afc-f16667547581" InformativeScreenshot="40308b411c0d41199f062b59c2a45a71.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Dermalogica® Skin Care | Official Site' /&gt;" SearchSteps="FuzzySelector" Version="V2" Visibility="Interactive">
                               <uix:TargetAnchorable.Anchors>
                                 <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
-                                  <uix:Target CvTextArea="1102, 850, 49, 21" CvTextArgument="size:" CvType="Text" DesignTimeRectangle="1106, 848, 49, 29" FriendlyName="'size'" FullSelectorArgument="&lt;webctrl tag='LEGEND' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='LEGEND' type='' class='form__label' aaname='size:' check:innerText='size:' /&gt;" SearchSteps="FuzzySelector, CV" />
+                                  <uix:Target CvElementArea="1310, 298, 45, 44" CvType="CloseButton" DesignTimeRectangle="1300, 288, 66, 66" ElementType="Button" FriendlyName="'BUTTON'" FullSelectorArgument="&lt;webctrl aria-label='Close' css-selector='body&amp;gt;div&amp;gt;sticky-header&amp;gt;header&amp;gt;div&amp;gt;details-modal&amp;gt;details&amp;gt;div&amp;gt;div&amp;gt;button' tag='BUTTON' type='button' /&gt;" FuzzySelectorArgument="&lt;webctrl aria-label='Close' class='search-modal__close-button modal__close-button link link--text focus-inset' tag='BUTTON' type='button' aaname='                                                                    ' /&gt;" SearchSteps="FuzzySelector, CV" />
                                 </scg:List>
                               </uix:TargetAnchorable.Anchors>
                             </uix:TargetAnchorable>
                           </uix:NClick.Target>
                         </uix:NClick>
-                        <uix:NGetText DisplayName="Get Text '$49.00'" sap:VirtualizedContainerService.HintSize="354,184.66666666666666" sap2010:WorkflowViewState.IdRef="NGetText_1" ScopeIdentifier="61a24789-2885-4fd9-b43c-96fee873c7e2" TextString="[I1S1]" Version="V3">
-                          <uix:NGetText.Target>
-                            <uix:TargetAnchorable BrowserURL="https://www.dermalogica.com/products/precleanse?variant=36070284460184" CvTextArea="1102, 664, 106, 31" CvType="AnyWordGroup" DesignTimeRectangle="1106, 663, 103, 37" DesignTimeScaleFactor="1.5" ElementType="Text" FriendlyName="'$49.00'" FullSelectorArgument="&lt;webctrl id='price-item' tag='SPAN' /&gt;" FuzzySelectorArgument="&lt;webctrl id='price-item' tag='SPAN' type='' class='price-item price-item--regular' /&gt;" Guid="fb196f3f-3ef1-4e3f-ab24-e024e1917076" ImageBase64="" InformativeScreenshot="afb13076479d271b6f9f5ea1549052f9.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Precleanse Cleansing Oil Melts Make-up | Dermalogica®' /&gt;" SearchSteps="FuzzySelector, CV" Version="V2" Visibility="Interactive" />
-                          </uix:NGetText.Target>
-                        </uix:NGetText>
+                        <uix:NCheckState DisplayName="Check App State 'IMG'" EnableIfNotExists="False" sap:VirtualizedContainerService.HintSize="540,1230.6666666666667" sap2010:WorkflowViewState.IdRef="NCheckState_2" ScopeIdentifier="2663d301-d327-4a44-ae2b-102f3e7f8323" Version="V3">
+                          <uix:NCheckState.IfExists>
+                            <Sequence DisplayName="Target appears" sap:VirtualizedContainerService.HintSize="496,986.6666666666666" sap2010:WorkflowViewState.IdRef="Sequence_18">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                              <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'Price, $'" sap:VirtualizedContainerService.HintSize="434,199.33333333333334" sap2010:WorkflowViewState.IdRef="NClick_7" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="2663d301-d327-4a44-ae2b-102f3e7f8323" Version="V3">
+                                <uix:NClick.Target>
+                                  <uix:TargetAnchorable BrowserURL="https://www.dermalogica.com/pages/search-results-page?q=PreCleanse" DesignTimeRectangle="211, 839, 347, 347" DesignTimeScaleFactor="1.5" ElementType="Icon" FriendlyName="'IMG'" FullSelectorArgument="&lt;webctrl parentid='snize-product-5710551974040' tag='IMG' /&gt;" FuzzySelectorArgument="&lt;webctrl parentid='snize-product-5710551974040' tag='IMG' type='' class='snize-item-image ' aaname='precleanse with benefits' /&gt;" Guid="6e75908a-dbe3-42d7-9411-afa3cb6f04cd" InformativeScreenshot="8124e5aab5f1d2dc20bbb92528ef48e9.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='PreCleanse - Dermalogica' /&gt;" SearchSteps="FuzzySelector" Version="V2" Visibility="Interactive">
+                                    <uix:TargetAnchorable.Anchors>
+                                      <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                                        <uix:Target CvTextArea="235, 711, 414, 24" CvTextArgument="Price, $ Product Type Rating" CvType="Text" DesignTimeRectangle="209, 697, 1500, 58" FriendlyName="'Price, $'" FullSelectorArgument="&lt;webctrl css-selector='body&amp;gt;main&amp;gt;section&amp;gt;div&amp;gt;div&amp;gt;div&amp;gt;div' idx='3' parentid='snize_results' tag='DIV' /&gt;" FuzzySelectorArgument="&lt;webctrl type='' class='snize-horizontal-filters snize-product-filters clearfix' parentid='snize_results' tag='DIV' aaname='' check:innerText='Price, $ &amp;#xD;&amp;#xA;Product Type &amp;#xD;&amp;#xA;Rating' /&gt;" SearchSteps="FuzzySelector, CV" />
+                                      </scg:List>
+                                    </uix:TargetAnchorable.Anchors>
+                                  </uix:TargetAnchorable>
+                                </uix:NClick.Target>
+                              </uix:NClick>
+                              <uix:NClick ActivateBefore="True" ClickType="Single" DisplayName="Click 'unchecked'" sap:VirtualizedContainerService.HintSize="434,199.33333333333334" sap2010:WorkflowViewState.IdRef="NClick_8" KeyModifiers="None" MouseButton="Left" ScopeIdentifier="2663d301-d327-4a44-ae2b-102f3e7f8323" Version="V3">
+                                <uix:NClick.Target>
+                                  <uix:TargetAnchorable BrowserURL="https://www.dermalogica.com/products/precleanse" CvElementArea="1233, 889, 128, 79" CvTextArea="1261, 918, 67, 19" CvTextArgument="5.1 oz" CvType="Button" DesignTimeRectangle="1236, 891, 123, 75" DesignTimeScaleFactor="1.5" ElementType="Text" FriendlyName="'unchecked'" FullSelectorArgument="&lt;webctrl aaname='                               5.1 oz                           *' tag='LABEL' /&gt;" FuzzySelectorArgument="&lt;webctrl aaname='                               5.1 oz                           *' tag='LABEL' type='' class='' check:innerText='5.1 oz' /&gt;" Guid="d6dc4c44-1d77-4063-be39-67866a2ea44a" InformativeScreenshot="969deab3348e53096d809b944dd4db8a.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Precleanse Cleansing Oil Melts Make-up | Dermalogica®' /&gt;" SearchSteps="FuzzySelector, CV" Version="V2" Visibility="Interactive">
+                                    <uix:TargetAnchorable.Anchors>
+                                      <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                                        <uix:Target CvTextArea="1102, 850, 49, 21" CvTextArgument="size:" CvType="Text" DesignTimeRectangle="1106, 848, 49, 29" FriendlyName="'size'" FullSelectorArgument="&lt;webctrl tag='LEGEND' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='LEGEND' type='' class='form__label' aaname='size:' check:innerText='size:' /&gt;" SearchSteps="FuzzySelector, CV" />
+                                      </scg:List>
+                                    </uix:TargetAnchorable.Anchors>
+                                  </uix:TargetAnchorable>
+                                </uix:NClick.Target>
+                              </uix:NClick>
+                              <uix:NGetText DisplayName="Get Text 'precleanse cleansing oil'" sap:VirtualizedContainerService.HintSize="434,199.33333333333334" sap2010:WorkflowViewState.IdRef="NGetText_2" ScopeIdentifier="2663d301-d327-4a44-ae2b-102f3e7f8323" TextString="[I1S1]" Version="V3">
+                                <uix:NGetText.Target>
+                                  <uix:TargetAnchorable BrowserURL="https://www.dermalogica.com/products/precleanse?variant=36070284460184&amp;selling_plan=2411167896" CvTextArea="1102, 766, 105, 31" CvType="AnyWordGroup" DesignTimeRectangle="1106, 760, 103, 45" DesignTimeScaleFactor="1.5" ElementType="Text" FriendlyName="'$49.00'" FullSelectorArgument="&lt;webctrl id='price-item' tag='SPAN' /&gt;" FuzzySelectorArgument="&lt;webctrl id='price-item' tag='SPAN' type='' class='price-item price-item--regular' /&gt;" Guid="cd292c9a-e717-44ba-ba60-334e1360cc6e" InformativeScreenshot="329cda0a0f95a4aaef70e4d2894f84a6.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='Precleanse Cleansing Oil Melts Make-up | Dermalogica®' /&gt;" SearchSteps="FuzzySelector, CV" Version="V2" Visibility="Interactive">
+                                    <uix:TargetAnchorable.Anchors>
+                                      <scg:List x:TypeArguments="uix:ITarget" Capacity="4">
+                                        <uix:Target CvTextArea="1104, 634, 412, 37" CvTextArgument="precleanse cleansing oil" CvType="Text" DesignTimeRectangle="1106, 627, 725, 47" ElementType="Text" FriendlyName="'precleanse cleansing oil'" FullSelectorArgument="&lt;webctrl tag='H1' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='H1' type='' class='h2' aaname='precleanse cleansing oil' check:innerText='precleanse cleansing oil' /&gt;" SearchSteps="FuzzySelector, CV" />
+                                      </scg:List>
+                                    </uix:TargetAnchorable.Anchors>
+                                  </uix:TargetAnchorable>
+                                </uix:NGetText.Target>
+                              </uix:NGetText>
+                              <Assign sap:VirtualizedContainerService.HintSize="434,125.33333333333333" sap2010:WorkflowViewState.IdRef="Assign_2">
+                                <Assign.To>
+                                  <OutArgument x:TypeArguments="x:String">[arr_Prices(currentItem.key)]</OutArgument>
+                                </Assign.To>
+                                <Assign.Value>
+                                  <InArgument x:TypeArguments="x:String">[I1S1]</InArgument>
+                                </Assign.Value>
+                              </Assign>
+                              <ui:LogMessage DisplayName="Log Message" sap:VirtualizedContainerService.HintSize="434,172.66666666666666" sap2010:WorkflowViewState.IdRef="LogMessage_2" Level="[UiPath.Core.Activities.LogLevel.Info]" Message="[arr_Prices(currentItem.key)]" />
+                            </Sequence>
+                          </uix:NCheckState.IfExists>
+                          <uix:NCheckState.IfNotExists>
+                            <Sequence DisplayName="Target does not appear" sap:VirtualizedContainerService.HintSize="450,107.33333333333333" sap2010:WorkflowViewState.IdRef="Sequence_19">
+                              <sap:WorkflowViewStateService.ViewState>
+                                <scg:Dictionary x:TypeArguments="x:String, x:Object">
+                                  <x:Boolean x:Key="IsExpanded">True</x:Boolean>
+                                </scg:Dictionary>
+                              </sap:WorkflowViewStateService.ViewState>
+                            </Sequence>
+                          </uix:NCheckState.IfNotExists>
+                          <uix:NCheckState.Target>
+                            <uix:TargetAnchorable BrowserURL="https://www.dermalogica.com/pages/search-results-page?q=PreCleanse" DesignTimeRectangle="211, 839, 347, 347" DesignTimeScaleFactor="1.5" ElementType="Icon" FriendlyName="'IMG'" FullSelectorArgument="&lt;webctrl idx='988' /&gt;" FuzzySelectorArgument="&lt;webctrl tag='IMG' type='' class='snize-item-image ' aaname='precleanse with benefits' /&gt;" Guid="39cf628e-6e38-41ef-9157-0ac9b10342fc" InformativeScreenshot="5aaf801c9aeb4961fdaa15eb60b1cf3b.png" ScopeSelectorArgument="&lt;html app='chrome.exe' title='PreCleanse - Dermalogica' /&gt;" SearchSteps="FuzzySelector" Version="V2" Visibility="Interactive" />
+                          </uix:NCheckState.Target>
+                        </uix:NCheckState>
                       </Sequence>
                     </ActivityAction>
                   </uix:NApplicationCard.Body>
                   <uix:NApplicationCard.TargetApp>
-                    <uix:TargetApp Area="-11, -11, 1942, 1030" BrowserType="Chrome" IconBase64="iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAKVSURBVFhH7ZffT9NQFMfHq/4/Pupf4B+wVXxy7STqVrIZFiMgYqKgqOCUIAg4o4EYjUY06oP/gIkPBoVME0MIEcUH9WEddjve055x7e29221nwguf5GRt7znfc9b7s4k9otLdnd+fsrIHjUxv2jDtPs/YNT7DNnL773QlLftwyrKXmDmGZYPMsA190Bdj/NAOSWXsA4aZeytL2NJYDMaSTDySZrbA/tEfaQINw9iUlcuTXDRY4KhMNI6hFsnqgf9cJtSJab8J7Lc4r/1YrghjN2cCNnyltNPudYfGmOiKNeCYFc+PgsiXtfWgH9PGHH4qCTh9AgERTKsAZjRF5eAcFgNEKw6NQGm6DDP3FuEG++1j995zzQIwB6UL4q9w6kUG+3Tj6yZJB1lb34Cp+Qd0x1EU4Jjm4D5Ky0mmTx4SnZtWXnxMkmrq9TpdcWQFoOGyTWk53toucS4MXATXDYsjmNR1XboLoyrAyGTTlJbjbSoS56VXb0iOU3UcGJ+ah6M9eTiS6YVzI+Ow+X2LWjnKAlguSstRFbBS+UxynIdPX4T8JlhBItEKYK9F5owiIldv3Qn5nRm+TK2cSF2gGoQfViskx3n07GXIb3LuPrVyVAVIB6FqGj55/prkOLVaDabLC3Di9AAcz5+Fa5Oz8PPXb2rlyApQTkMEFwkx4FRxCGrb2yQZDUUB8oUIUS3FE7fvSuf5v1SrDl1xZAW0XIoZys1o8NJ1+Lj6CRqNBsn74P3ySsUbhN+2fgTs3fvloE67zQhptx1jn18YK/nbLfvtKfRL/URDTe0jGh4eZCKdWOSj2a4eyZpg1a26o515rz3uobQJ9lusUxKL0e5zDXbvw0SEf5qxvQM3MDR2jc+UK9weShKJvwZqMTcT+QOUAAAAAElFTkSuQmCC" InformativeScreenshot="2c8741f4a9b081fdb32a9027d2699d8f.jpg" Selector="&lt;html app='chrome.exe' title='Dermalogica® Skin Care | Official Site' /&gt;" Title="Dermalogica® Skin Care | Official Site" Url="[currentItem.Value]" />
+                    <uix:TargetApp Area="-11, -11, 1942, 1030" BrowserType="Chrome" IconBase64="iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAKVSURBVFhH7ZffT9NQFMfHq/4/Pupf4B+wVXxy7STqVrIZFiMgYqKgqOCUIAg4o4EYjUY06oP/gIkPBoVME0MIEcUH9WEddjve055x7e29221nwguf5GRt7znfc9b7s4k9otLdnd+fsrIHjUxv2jDtPs/YNT7DNnL773QlLftwyrKXmDmGZYPMsA190Bdj/NAOSWXsA4aZeytL2NJYDMaSTDySZrbA/tEfaQINw9iUlcuTXDRY4KhMNI6hFsnqgf9cJtSJab8J7Lc4r/1YrghjN2cCNnyltNPudYfGmOiKNeCYFc+PgsiXtfWgH9PGHH4qCTh9AgERTKsAZjRF5eAcFgNEKw6NQGm6DDP3FuEG++1j995zzQIwB6UL4q9w6kUG+3Tj6yZJB1lb34Cp+Qd0x1EU4Jjm4D5Ky0mmTx4SnZtWXnxMkmrq9TpdcWQFoOGyTWk53toucS4MXATXDYsjmNR1XboLoyrAyGTTlJbjbSoS56VXb0iOU3UcGJ+ah6M9eTiS6YVzI+Ow+X2LWjnKAlguSstRFbBS+UxynIdPX4T8JlhBItEKYK9F5owiIldv3Qn5nRm+TK2cSF2gGoQfViskx3n07GXIb3LuPrVyVAVIB6FqGj55/prkOLVaDabLC3Di9AAcz5+Fa5Oz8PPXb2rlyApQTkMEFwkx4FRxCGrb2yQZDUUB8oUIUS3FE7fvSuf5v1SrDl1xZAW0XIoZys1o8NJ1+Lj6CRqNBsn74P3ySsUbhN+2fgTs3fvloE67zQhptx1jn18YK/nbLfvtKfRL/URDTe0jGh4eZCKdWOSj2a4eyZpg1a26o515rz3uobQJ9lusUxKL0e5zDXbvw0SEf5qxvQM3MDR2jc+UK9weShKJvwZqMTcT+QOUAAAAAElFTkSuQmCC" InformativeScreenshot="621a27a74b5e3adfdfc50eb9443ab37e.jpg" Selector="&lt;html app='chrome.exe' title='Dermalogica® Skin Care | Official Site' /&gt;" Title="Dermalogica® Skin Care | Official Site" Url="https://www.dermalogica.com/" />
                   </uix:NApplicationCard.TargetApp>
                 </uix:NApplicationCard>
-                <ui:WriteCell Cell="{x:Null}" DisplayName="Write Cell Workbook" sap:VirtualizedContainerService.HintSize="450,138.66666666666666" sap2010:WorkflowViewState.IdRef="WriteCell_1" SheetName="Sheet1" Text="[I1S1]" WorkbookPath="C:\Users\ShikharSaxena\Documents\Dermalogica_ExtractedData.xlsx" />
               </Sequence>
               <x:Null x:Key="1" />
               <x:Null x:Key="2" />
